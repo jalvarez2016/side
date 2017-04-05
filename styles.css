@@ -6,8 +6,13 @@ h1{
     text-align: center;
 }
 
-#board{
-    display:none;
+#enemy{
+background-color:black;    
+width:100px;
+height:100px;
+top:224px;
+left:600px;
+position: relative;
 }
 
 #game{
