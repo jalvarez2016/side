@@ -5,85 +5,135 @@ function showBoard() {
     $('#board').show();
 }
 
+var count = 1;
+
+function killed() {
+        var marioLeft = $("#mario").offset().left;
+        var enemyLeft = $("#enemy").offset().left;
+        var marioRight = marioLeft + $("#mario").width();
+        var enemyRight = enemyLeft + $("#enemy").width();
+        var marioUp = $("#mario").offset().bottom;
+        var enemyDown = $("#enemy").offset().bottom;
+        var marioDown = marioUp + $("#mario").height();
+        var enemyUp = enemyDown + $("#enemy").height();
+        if(marioDown > enemyDown && marioUp < enemyUp && marioRight > enemyLeft && marioLeft < enemyRight) {
+            alert("Game Over");
+            $("#mario").hide();
+        }
+}
+
+function right(){
+    $("#mario").css("left", $("#mario").offset().left + 10);
+    killed();  
+}
+
+function left(){
+    $("#mario").css("left", $("#mario").offset().left - 50);
+    killed(); 
+}
+
 function jump() {
-    
+    $('#mario').css('bottom', '175px');
+    $('#count').text(count++);
+    $('coin').hide();
+    return;
+}
+
+function landing() {
+    $('#mario').css('bottom', '60px');
+    $('coin').show();
+    return;
 }
 
 $(document).ready(function() {
     
     
    $('#start').click(function() {
+       
       showBoard();
+      
    });
    
    $('#jump').mousedown(function() {
-      $('#mario').css('bottom', '175px');
-      $('#coin').hide();
+       
+      jump();
+      
    });
-   
-   var count = 1;
    
     $('#jump').mouseup(function() {
-      $('#mario').css('bottom', '60px');
-      $('#coin').show();
-      $('#count').text(count++);
+        
+      landing();
+      
    });
+  
+  
    
    $("body").keydown(function(e) {
+       
       if(e.keyCode == 37) { // left
       
+        left();
+        
       }
       else if(e.keyCode == 39) { // right
+      
+        right();
         
       } else if(e.keyCode == 49) {
-          jump();
+          
+         jump();
+         
       }
+      
    });
      
     $("body").keydown(function(e) {
-      if (event.which === 32 || event.which === 87) {
-        $('#mario').css('bottom', '175px');
-        $('#coin').hide();
+        
+      if (event.which === 32 || event.which === 87 || event.which === 38) {
+          
+        jump();
+        
+        killed();
+        
       }
+      
     });
+    
     $("body").keyup(function(e) {
-      if (event.which === 32 || event.which === 83 || event.which === 87) {
-        $('#mario').css('bottom', '60px');
-        $('#coin').show(); 
+        
+      if (event.which === 32 || event.which === 83 || event.which === 87 || event.which === 38 || event.which === 40) {
+          
+        landing();
+        
+        killed();
+        
       }
+      
     });
     
     
     
     
     $("body").keydown(function(event) {
+        
     //moves left
     if (event.which === 65) {
         
-        $("#mario").css("left", $("#mario").offset().left - 50);
-    
+        left();
+        
+        killed();
+        
     } else if (event.which === 68) {
+        
+       right();
        
-       $("#mario").css("left", $("#mario").offset().left + 10);
+       killed();
+       
     } 
     
     });
     
-    function checkCollision() {
-    var blueLeft = $("#mario").offset().left;
-    var redLeft = $("#enemy").offset().left;
-    var blueRight = blueLeft + $("#mario").width();
-    var redRight = redLeft + $("#enemy").width();
-    var blueUp = $("#mario").offset().top;
-    var redDown = $("#enemy").offset().top;
-    var blueDown = blueUp + $("#mario").height();
-    var redUp = redDown + $("#enemy").height();
-    if(blueDown > redDown && blueUp < redUp && blueRight > redLeft && blueLeft < redRight) {
-        alert("Touching");
-        $("#blue").hide();
-    }
-
-}
+    
 
 
 
